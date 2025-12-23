@@ -3,14 +3,14 @@ public class Main {
 
         System.out.println("=== Grocery Store Management System ===\n");
 
-        Product product1 = new Product(1, "Milk", 450.0, 20);
-        Product product2 = new Product(2, "Bread", 150.0, 0);
+        Product product1 = new Product(1, "Milk", 500.0, 20);
+        Product product2 = new Product(2, "Bread", 200.0, 0);
         Product product3 = new Product();
 
-        Customer customer1 = new Customer(101, "Alice Johnson", "Regular", 5000);
-        Customer customer2 = new Customer(102, "Bob Williams", "Gold", 15000);
+        Customer customer1 = new Customer(101, "Prohor Tochilkin", "Regular", 5000);
+        Customer customer2 = new Customer(102, "Viktor Shimchishin", "Gold", 15000);
 
-        Sale sale1 = new Sale(1001, "Alice Johnson", 0.0, "2025-05-20");
+        Sale sale1 = new Sale(1001, "Prohor Tochilkin", 0.0, "2025-05-20");
 
         System.out.println("--- PRODUCTS ---");
         System.out.println(product1);
@@ -40,9 +40,9 @@ public class Main {
         product2.restock(30);
         System.out.println("Bread after restock: " + product2.getStockQuantity());
 
-        System.out.println("Is Bob VIP: " + customer2.isVIP());
+        System.out.println("Is Viktor VIP: " + customer2.isVIP());
         customer1.addPurchase(6000);
-        System.out.println("Is Alice VIP after purchase: " + customer1.isVIP());
+        System.out.println("Is Prohor VIP after purchase: " + customer1.isVIP());
 
         sale1.addItem(450);
         sale1.addItem(1200);
