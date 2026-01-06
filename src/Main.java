@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -56,6 +58,28 @@ public class Main {
         System.out.println(customer1);
         System.out.println(customer2);
         System.out.println(sale1);
+
+        System.out.println("\n=== ASSIGNMENT 2 DEMO ===");
+
+        ArrayList<StoreItem> items = new ArrayList<>();
+
+        items.add(product1);
+        items.add(product2);
+        items.add(new Service(3, "Delivery", 1000));
+
+        System.out.println("\n--- POLYMORPHISM OUTPUT ---");
+        for (StoreItem item : items) {
+            item.showInfo();
+        }
+
+        System.out.println("\n--- INSTANCEOF CHECK ---");
+        for (StoreItem item : items) {
+            if (item instanceof Product) {
+                System.out.println(item.name + " is a Product");
+            } else if (item instanceof Service) {
+                System.out.println(item.name + " is a Service");
+            }
+        }
 
         System.out.println("\n=== Program Complete ===");
     }

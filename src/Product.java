@@ -1,30 +1,18 @@
-public class Product {
+public class Product extends StoreItem {
 
-    private int productId;
-    private String name;
     private double price;
     private int stockQuantity;
 
-    public Product(int productId, String name, double price, int stockQuantity) {
-        this.productId = productId;
-        this.name = name;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
+    public Product(int id, String name, double price, int stockQuantity) {
+        super(id, name);
+        setPrice(price);
+        setStockQuantity(stockQuantity);
     }
 
     public Product() {
-        this.productId = 0;
-        this.name = "Unknown Product";
+        super(0, "Unknown Product");
         this.price = 0.0;
         this.stockQuantity = 0;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public double getPrice() {
@@ -35,20 +23,16 @@ public class Product {
         return stockQuantity;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPrice(double price) {
-        this.price = price;
+        if (price >= 0) {
+            this.price = price;
+        }
     }
 
     public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
+        if (stockQuantity >= 0) {
+            this.stockQuantity = stockQuantity;
+        }
     }
 
     public boolean isInStock() {
@@ -56,16 +40,28 @@ public class Product {
     }
 
     public void restock(int amount) {
-        stockQuantity += amount;
+        if (amount > 0) {
+            stockQuantity += amount;
+        }
+    }
+
+    @Override
+    public void showInfo() {
+        System.out.println(
+                "Product: " + name +
+                        ", price=" + price +
+                        ", stock=" + stockQuantity
+        );
     }
 
     @Override
     public String toString() {
-        return "Product{productId=" + productId +
+        return "Product{id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stockQuantity=" + stockQuantity +
                 '}';
     }
 }
+
 
