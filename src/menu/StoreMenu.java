@@ -44,7 +44,7 @@ public class StoreMenu implements Menu {
 
                 switch (choice) {
                     case 1 -> addProduct();
-                    case 2 -> viewAllItems();      // POLYMORPHISM
+                    case 2 -> viewAllItems();
                     case 3 -> addCustomer();
                     case 4 -> viewAllCustomers();
                     case 0 -> running = false;

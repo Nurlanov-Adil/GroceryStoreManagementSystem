@@ -24,5 +24,5 @@ public abstract class StoreItem {
         this.name = name;
     }
 
-    public abstract void showInfo(); // abstract method
+    public abstract void showInfo();
 }
