@@ -1,3 +1,5 @@
+package model;
+
 public class Service extends StoreItem {
 
     private double fee;
@@ -7,11 +9,7 @@ public class Service extends StoreItem {
         setFee(fee);
     }
 
-    public double getFee() {
-        return fee;
-    }
-
-    public void setFee(double fee){
+    public void setFee(double fee) {
         if (fee < 0) {
             throw new IllegalArgumentException("Fee cannot be negative");
         }
@@ -21,8 +19,8 @@ public class Service extends StoreItem {
     @Override
     public void showInfo() {
         System.out.println(
-                "Service: " + name + ", fee = " + fee
+                "Service: " + name +
+                        ", fee = " + fee
         );
     }
 }
-// .

@@ -1,3 +1,5 @@
+package model;
+
 public abstract class StoreItem {
 
     protected int id;
@@ -8,16 +10,8 @@ public abstract class StoreItem {
         setName(name);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setId(int id) {
-        if (id < 0) {
+        if (id <= 0) {
             throw new IllegalArgumentException("ID must be positive");
         }
         this.id = id;
@@ -30,5 +24,5 @@ public abstract class StoreItem {
         this.name = name;
     }
 
-    public abstract void showInfo();
+    public abstract void showInfo(); // abstract method
 }
