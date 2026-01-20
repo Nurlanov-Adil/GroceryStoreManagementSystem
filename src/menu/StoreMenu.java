@@ -84,7 +84,7 @@ public class StoreMenu implements Menu {
     private void viewAllItems() {
         System.out.println("\n--- ALL STORE ITEMS ---");
         for (StoreItem item : items) {
-            item.showInfo(); // polymorphism
+            item.showInfo();
         }
     }
 

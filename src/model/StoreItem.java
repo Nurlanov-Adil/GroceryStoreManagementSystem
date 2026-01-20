@@ -1,6 +1,6 @@
 package model;
 
-public abstract class StoreItem {
+public abstract class StoreItem implements Displayable {
 
     protected int id;
     protected String name;
