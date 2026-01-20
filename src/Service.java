@@ -4,14 +4,24 @@ public class Service extends StoreItem {
 
     public Service(int id, String name, double fee) {
         super(id, name);
+        setFee(fee);
+    }
+
+    public double getFee() {
+        return fee;
+    }
+
+    public void setFee(double fee){
+        if (fee < 0) {
+            throw new IllegalArgumentException("Fee cannot be negative");
+        }
         this.fee = fee;
     }
 
     @Override
     public void showInfo() {
         System.out.println(
-                "Service: " + name +
-                        ", fee=" + fee
+                "Service: " + name + ", fee = " + fee
         );
     }
 }
