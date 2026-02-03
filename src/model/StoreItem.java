@@ -1,27 +1,27 @@
 package model;
 
-public abstract class StoreItem implements Displayable {
+public abstract class StoreItem {
 
     protected int id;
     protected String name;
+    protected double price;
 
-    public StoreItem(int id, String name) {
-        setId(id);
-        setName(name);
-    }
-
-    public void setId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("ID must be positive");
-        }
+    public StoreItem(int id, String name, double price) {
         this.id = id;
+        this.name = name;
+        this.price = price;
     }
 
-    public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-        this.name = name;
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public abstract void showInfo();

@@ -1,35 +1,34 @@
 package menu;
 
-import model.*;
-import exception.InvalidInputException;
+import database.StoreItemDAO;
+import model.Product;
+import model.Service;
+import model.StoreItem;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StoreMenu implements Menu {
 
-    private ArrayList<StoreItem> items = new ArrayList<>();
-    private ArrayList<Customer> customers = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
-
-    public StoreMenu() {
-        // Test data from Assignment 2
-        items.add(new Product(1, "Milk", 500, 20));
-        items.add(new Product(2, "Bread", 200, 30));
-        items.add(new Service(3, "Delivery", 1000));
-
-        customers.add(new Customer(101, "Prohor Tochilkin", "Regular", 5000));
-    }
+    private final StoreItemDAO dao = new StoreItemDAO();
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void displayMenu() {
-        System.out.println("\n=== GROCERY STORE MENU ===");
-        System.out.println("1. Add Product");
-        System.out.println("2. View All Items");
-        System.out.println("3. Add Customer");
-        System.out.println("4. View All Customers");
-        System.out.println("0. Exit");
-        System.out.print("Choice: ");
+        System.out.println("""
+        === GROCERY STORE MENU ===
+        1. View all items
+        2. View products only
+        3. View services only
+        4. Add product
+        5. Add service
+        6. Update item price / fee
+        7. Delete item
+        8. Search by name
+        9. Search by price range
+        10. Search by minimum price
+        11. Polymorphism demo
+        0. Exit
+        """);
     }
 
     @Override
@@ -38,79 +37,116 @@ public class StoreMenu implements Menu {
 
         while (running) {
             displayMenu();
-            try {
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+            System.out.print("Choice: ");
 
-                switch (choice) {
-                    case 1 -> addProduct();
-                    case 2 -> viewAllItems();
-                    case 3 -> addCustomer();
-                    case 4 -> viewAllCustomers();
-                    case 0 -> running = false;
-                    default -> throw new InvalidInputException("Invalid menu option");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume enter
+
+            switch (choice) {
+
+                case 1 -> dao.getAllItems();
+
+                case 2 -> dao.getProductsOnly();
+
+                case 3 -> dao.getServicesOnly();
+
+                case 4 -> addProduct();
+
+                case 5 -> addService();
+
+                case 6 -> updateItem();
+
+                case 7 -> deleteItem();
+
+                case 8 -> {
+                    System.out.print("Enter name keyword: ");
+                    String keyword = scanner.nextLine();
+                    dao.searchByName(keyword);
                 }
 
-            } catch (InvalidInputException e) {
-                System.out.println("Error: " + e.getMessage());
-            } catch (Exception e) {
-                System.out.println("Invalid input type!");
-                scanner.nextLine();
+                case 9 -> {
+                    System.out.print("Min price: ");
+                    double min = scanner.nextDouble();
+                    System.out.print("Max price: ");
+                    double max = scanner.nextDouble();
+                    scanner.nextLine();
+                    dao.searchByPriceRange(min, max);
+                }
+
+                case 10 -> {
+                    System.out.print("Min price: ");
+                    double min = scanner.nextDouble();
+                    scanner.nextLine();
+                    dao.searchByMinPrice(min);
+                }
+
+                case 11 -> polymorphismDemo();
+
+                case 0 -> running = false;
+
+                default -> System.out.println("Invalid choice!");
             }
         }
-
-        scanner.close();
     }
 
     private void addProduct() {
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Name: ");
+        System.out.print("Product name: ");
         String name = scanner.nextLine();
 
         System.out.print("Price: ");
         double price = scanner.nextDouble();
 
-        System.out.print("Stock: ");
+        System.out.print("Stock quantity: ");
         int stock = scanner.nextInt();
         scanner.nextLine();
 
-        items.add(new Product(id, name, price, stock));
-        System.out.println("Product added!");
+        dao.insertItem(new Product(0, name, price, stock));
     }
 
-    private void viewAllItems() {
-        System.out.println("\n--- ALL STORE ITEMS ---");
-        for (StoreItem item : items) {
-            item.showInfo();
-        }
+    private void addService() {
+        System.out.print("Service name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Fee: ");
+        double fee = scanner.nextDouble();
+        scanner.nextLine();
+
+        dao.insertItem(new Service(0, name, fee));
     }
 
-    private void addCustomer() {
-        System.out.print("ID: ");
+    private void updateItem() {
+        System.out.print("Enter item ID: ");
+        int id = scanner.nextInt();
+
+        System.out.print("Enter new price / fee: ");
+        double value = scanner.nextDouble();
+        scanner.nextLine();
+
+        dao.updatePrice(id, value);
+    }
+
+    private void deleteItem() {
+        System.out.print("Enter item ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+        System.out.print("Confirm delete (yes/no): ");
+        String confirm = scanner.nextLine();
 
-        System.out.print("Membership: ");
-        String level = scanner.nextLine();
-
-        System.out.print("Total purchases: ");
-        double total = scanner.nextDouble();
-        scanner.nextLine();
-
-        customers.add(new Customer(id, name, level, total));
-        System.out.println("Customer added!");
+        if (confirm.equalsIgnoreCase("yes")) {
+            dao.deleteItem(id);
+        } else {
+            System.out.println("Deletion cancelled.");
+        }
     }
 
-    private void viewAllCustomers() {
-        System.out.println("\n--- ALL CUSTOMERS ---");
-        for (Customer c : customers) {
-            System.out.println(c);
-        }
+    private void polymorphismDemo() {
+        System.out.println("\n--- POLYMORPHISM DEMO ---");
+
+        StoreItem milk = new Product(0, "Milk", 500, 20);
+        StoreItem delivery = new Service(0, "Delivery", 1000);
+
+        milk.showInfo();
+        delivery.showInfo();
     }
 }
